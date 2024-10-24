@@ -1,0 +1,1 @@
+# ad_for_detsad

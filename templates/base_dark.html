@@ -12,36 +12,40 @@
         crossorigin="anonymous">
         </script>
         <style>
-            r{color: rgb(172, 179, 202);}
+            r{color: rgb(12, 18, 37);}
+            ri{color: #6786f3;}
         </style>
     </head>
     <body style="background-color: #020714;">
         <div style="background-color: #005368;">
-            <div class="container mx-6 col-12">
-                <div class="row">
-                    {% if 'Главная страница'==tit %}
-                        <div class="col-xl-2 col-lg-2 d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Главная строница</r></b ></div>
-                    {% else %}
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 my-1"><button href="/" style="background-color: #6786f3"><r>Главная строница</r ></div>
-                    {% endif %}
-                    {% if 'Математика'==tit %}
-                        <div class="col-xl-1 col-lg-2 d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Математика</r></b ></div>
-                    {% else %}
-                        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-2 my-1"><button href="/group/math" style="background-color: #6786f3"><r>Математика</r ></div>
-                    {% endif %}
-                    {% if 'Музыка'==tit %}
-                        <div class="col-xl-1 col-lg-2 d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Музыка</r></b ></div>
-                    {% else %}
-                        <div class="col-xl-1 col-lg-2 col-md-2 col-sm-2 my-1"><a href="/group/music"><button style="background-color: #6786f3"><r>Музыка</r ></div>
-                    {% endif %}
-                    {% if 'Растеневодство'==tit %}
-                        <div class="col-xl-2 col-lg-2 d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Растеневодство</r></b ></div>
-                    {% else %}
-                        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 my-1"><button href="/group/plants" style="background-color: #6786f3"><r>Растеневодство</r ></div>
-                    {% endif %}
-                    {% block theam %}{% endblock %}
-                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 my-1"><button href="/logout" style="background-color: #3a2d74"><r>Выйти из аккаунта</r ></div>
-                </div>
+            <div class="row mx-2">,
+                {% if 'Главная страница'==tit %}
+                    <div class="col-auto d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Главная строница</r></b></div>
+                {% else %}
+                    <div class="col-auto my-1"><a href="/"><button style="background-color: #6786f3"><r>Главная строница</r></button></a></div>
+                {% endif %}
+                {% if 'math'==tit %}
+                    <div class="col-auto d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Математика</r></b></div>
+                {% else %}
+                    <div class="col-auto my-1"><a href="/group/math"><button style="background-color: #6786f3"><r>Математика</r></button></a></div>
+                {% endif %}
+                {% if 'music'==tit %}
+                    <div class="col-auto d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Музыка</r></b></div>
+                {% else %}
+                    <div class="col-auto my-1"><a href="/group/music"><button style="background-color: #6786f3"><r>Музыка</r></button></a></div>
+                {% endif %}
+                {% if 'plants'==tit %}
+                    <div class="col-auto d-none d-md-block my-1" style="background-color: #a9b7e9"><b><r>Растеневодство</r></b></div>
+                {% else %}
+                    <div class="col-auto my-1"><a href="/group/plants"><button style="background-color: #6786f3"><r>Растеневодство</r></button></a></div>
+                {% endif %}
+                <div class="col-auto my-1"><a href="/light"><button style="background-image: '/static/dark';"></button></a></div>
+                {% if name!="[имя не определено]" %}
+                    <div class="col-auto my-1"><a href="/logout"><button style="background-color: #3a2d74"><r style="color: aqua;">Стать инкогнито</r></button></a></div>
+                {% else %}
+                    <div class="col-auto my-1"><a href="/login"><button style="background-color: #3a2d74"><r style="color: aqua;">Указать имя</r></button></a></div>
+                {% endif %}
+                <h1>dark</h1>
             </div>
         </div>
         {% block content %}{% endblock %}

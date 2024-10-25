@@ -26,12 +26,10 @@ def index():
     print('h_n =',session['had_name'])
     if 'name' not in session:
         session['name']='[имя не определено]'
-    print()
     print('пользователь',session['name'],'теперь на /')
     if 'theem' not in session:
         session['theem']='light'
         return render_template('first_page.html')
-    session['theem']='light'
     
     return render_template('index.html', mis=0, name=session['name'], tit='Главная страница', theem=session['theem'])
 
@@ -64,7 +62,7 @@ def login_post():
 
 #===========================================================================================================================
 
-@app.route('/group/<string:group>')
+@app.route('/gr/<string:group>')
 def gr(group):
     if 'secret_id' not in session:
         session['secret_id']=False
@@ -73,8 +71,32 @@ def gr(group):
     if group not in ['math','music','plants']:
         print('пользователь',session['name'],'- идиот, он перешёл на /group/'+group)
         return render_template('index.html', mis=3, tit='главная страница', theem=session['theem'], n=session['had_name'])
+    thems=open('spice/'+group+'/thems.txt')
+    themes=[i.strip() for i in thems]
+    thems.close()
     print('пользователь',session['name'],'теперь на /group/'+group)
-    return render_template('grupp.html', mis=0, tit=group, theem=session['theem'])
+    return render_template('grupp.html', mis=0, tit=group, theem=session['theem'], themes=themes)
+
+@app.route('/gr/<string:group>/bl/<string:block>')
+def bl(group,block):
+    if 'secret_id' not in session:
+        session['secret_id']=False
+    if 'theem' not in session:
+        return redirect('/')
+    thems=open('spice/'+group+'/thems.txt')
+    themes=[i.strip() for i in thems]
+    thems.close()
+    if group not in ['math','music','plants'] or block not in themes:
+        print('пользователь',session['name'],'- идиот, он перешёл на /group/'+group+'/bl/'+block)
+        return render_template('index.html', mis=3, tit='главная страница', theem=session['theem'], n=session['had_name'])
+    images=open('spice/'+group+'/'+block+'/images')
+    img=[i.strip() for i in images]
+    images.close()
+    HomeWork=open('spice/'+group+'/'+block+'/HW')
+    hw=[i.strip() for i in HomeWork]
+    HomeWork.close
+    print('пользователь',session['name'],'теперь на /gr/'+group+'/bl/'+block)
+    return render_template('block.html', img=img, hw=hw, name=session['name'])
 
 @app.route('/logout')
 def logout():
@@ -86,58 +108,34 @@ def logout():
     #del session['theem']
     return redirect('/')
 
-
 @app.route('/dark')
-def dark_theem1():
+def dark_theem():
     session['theem']='dark'
     print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
     return redirect('/')
 
 @app.route('/light')
-def light_theem1():
+def light_theem():
     session['theem']='light'
     print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
     return redirect('/')
-
-@app.route('/dark/<string:group>')
-def dark_theem2(group):
-    session['theem']='dark'
-    print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
-    return redirect('/{}'.format(group))
-
-@app.route('/light/<string:group>')
-def light_theem2(group):
-    session['theem']='light'
-    print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
-    return redirect('/'+group)
-
-@app.route('/dark/<string:group>/<string:block>')
-def dark_theem3(group,block):
-    session['theem']='dark'
-    print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
-    return redirect('/'+group+'/'+block)
-
-@app.route('/light/<string:group>/<string:block>')
-def light_theem3(group,block):
-    session['theem']='light'
-    print('пользователь',session['name'],'изменил тему на ['+session['theem']+']')
-    return redirect('/'+group+'/'+block)
 
 @app.route('/secret/<string:log>')
 def secret(log):
     if 'secret_id' not in session:
         redirect('/')
     if not session['secret_id']:
-        print('пользователь',session['name'],'перещёл на секретную страницу не являясь админом')
+        print('пользователь',session['name'],'перешёл на секретную страницу не являясь админом')
         return redirect('/')
     return render_template('secret_page.html',log=log)
 
 @app.route('/secret_key/<string:log>', methods=['post'])
 def secret_key(log):
     pasw=request.form.get('pasw')
-    if admins[log]==pasw:
+    if 'Ilusha12!'==pasw:
         print('пользователь',session['name'],'оказался админом:',log)
         session['name']=log
+        return redirect('/')
     print('пользователь',session['name'],'пытается войти за админа:',log+', и вводит неверный пароль:',)
     return render_template('secret_page.html', mis=1, log=log)
 

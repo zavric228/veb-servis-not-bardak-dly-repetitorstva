@@ -20,24 +20,19 @@
         <div style="background-color: #005368;">
             <div class="row mx-2">
                 {% if 'Главная страница'==tit %}
-                    <div class="col-auto d-none d-md-block my-3 mx-1" style="background-color: #a9b7e9"><b><r>Главная строница</r></b></div>
+                    <div class="col-auto d-none d-md-block my-3 mx-1" style="background-color: #a9b7e9"><b><r>Главная страница</r></b></div>
                 {% else %}
-                    <div class="col-auto my-3 mx-1"><a href="/"><button style="background-color: #6786f3"><r>Главная строница</r></button></a></div>
+                    <div class="col-auto my-3 mx-1"><a href="/"><button style="background-color: #6786f3"><r>Главная страница</r></button></a></div>
                 {% endif %}
                 {% if 'math'==tit %}
                     <div class="col-auto d-none d-md-block my-3 mx-1" style="background-color: #a9b7e9"><b><r>Математика</r></b></div>
                 {% else %}
-                    <div class="col-auto my-3 mx-1"><a href="/group/math"><button style="background-color: #6786f3"><r>Математика</r></button></a></div>
+                    <div class="col-auto my-3 mx-1"><a href="/gr/math"><button style="background-color: #6786f3"><r>Математика</r></button></a></div>
                 {% endif %}
                 {% if 'music'==tit %}
                     <div class="col-auto d-none d-md-block my-3 mx-1" style="background-color: #a9b7e9"><b><r>Музыка</r></b></div>
                 {% else %}
-                    <div class="col-auto my-3 mx-1"><a href="/group/music"><button style="background-color: #6786f3"><r>Музыка</r></button></a></div>
-                {% endif %}
-                {% if 'plants'==tit %}
-                    <div class="col-auto d-none d-md-block my-3 mx-1" style="background-color: #a9b7e9"><b><r>Растеневодство</r></b></div>
-                {% else %}
-                    <div class="col-auto my-3 mx-1"><a href="/group/plants"><button style="background-color: #6786f3"><r>Растеневодство</r></button></a></div>
+                    <div class="col-auto my-3 mx-1"><a href="/gr/music"><button style="background-color: #6786f3"><r>Музыка</r></button></a></div>
                 {% endif %}
                 <div class="col-auto my-3 mx-1"><a href="/light"><button style="background-image: '/static/dark';"></button></a></div>
                 {% if name!="[имя не определено]" %}

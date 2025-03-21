@@ -69,12 +69,12 @@ def gr(group):
     if 'theem' not in session:
         return redirect('/')
     if group not in ['math','music','plants']:
-        print('пользователь',session['name'],'- идиот, он перешёл на /group/'+group)
+        print('пользователь',session['name'],'- идиот, он перешёл на /gr/'+group)
         return render_template('index.html', mis=3, tit='главная страница', theem=session['theem'], n=session['had_name'])
     thems=open('spice/'+group+'/thems.txt')
     themes=[i.strip() for i in thems]
     thems.close()
-    print('пользователь',session['name'],'теперь на /group/'+group)
+    print('пользователь',session['name'],'теперь на /gr/'+group)
     return render_template('grupp.html', mis=0, tit=group, theem=session['theem'], themes=themes)
 
 @app.route('/gr/<string:group>/bl/<string:block>')
@@ -87,7 +87,7 @@ def bl(group,block):
     themes=[i.strip() for i in thems]
     thems.close()
     if group not in ['math','music','plants'] or block not in themes:
-        print('пользователь',session['name'],'- идиот, он перешёл на /group/'+group+'/bl/'+block)
+        print('пользователь',session['name'],'- идиот, он перешёл на /gr/'+group+'/bl/'+block)
         return render_template('index.html', mis=3, tit='главная страница', theem=session['theem'], n=session['had_name'])
     images=open('spice/'+group+'/'+block+'/images')
     img=[i.strip() for i in images]

@@ -1,0 +1,159 @@
+python  app.py
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 935-078-328
+(10192) wsgi starting up on http://0.0.0.0:5000
+(10192) accepted ('127.0.0.1', 56815)
+127.0.0.1 - - [28/May/2025 20:22:43] "GET / HTTP/1.1" 200 6925 0.228867
+(10192) accepted ('127.0.0.1', 56808)
+(10192) accepted ('127.0.0.1', 56807)
+127.0.0.1 - - [28/May/2025 20:22:45] "GET /static/css/shared.css HTTP/1.1" 304 165 0.855508
+(10192) accepted ('127.0.0.1', 56823)
+127.0.0.1 - - [28/May/2025 20:22:45] "GET /static/css/light.css HTTP/1.1" 304 164 0.049972
+127.0.0.1 - - [28/May/2025 20:22:46] "GET /static/img/profile/default.jpg HTTP/1.1" 404 1909 0.109936
+127.0.0.1 - - [28/May/2025 20:22:46] "GET /static/js/main.js HTTP/1.1" 304 162 0.011994
+127.0.0.1 - - [28/May/2025 20:22:51] "GET /static/img/profile/default.jpg HTTP/1.1" 404 1909 0.006997
+127.0.0.1 - - [28/May/2025 20:22:51] "GET /socket.io/?EIO=4&transport=polling&t=PSNwn95 HTTP/1.1" 200 300 0.002001
+127.0.0.1 - - [28/May/2025 20:22:52] "POST /socket.io/?EIO=4&transport=polling&t=PSNwnSn&sid=sdQDf38lBZFgxvglAAAA HTTP/1.1" 200 219 0.004998
+(10192) accepted ('127.0.0.1', 56841)
+127.0.0.1 - - [28/May/2025 20:22:52] "GET /socket.io/?EIO=4&transport=polling&t=PSNwnWY&sid=sdQDf38lBZFgxvglAAAA HTTP/1.1" 200 181 0.000999
+127.0.0.1 - - [28/May/2025 20:22:52] "GET /socket.io/?EIO=4&transport=polling&t=PSNwnY7&sid=sdQDf38lBZFgxvglAAAA HTTP/1.1" 200 181 0.000999
+127.0.0.1 - - [28/May/2025 20:22:59] "GET /login HTTP/1.1" 200 2595 0.020988
+127.0.0.1 - - [28/May/2025 20:23:00] "GET /static/css/shared.css HTTP/1.1" 304 165 0.006997
+127.0.0.1 - - [28/May/2025 20:23:00] "GET /static/js/main.js HTTP/1.1" 304 162 0.007995
+127.0.0.1 - - [28/May/2025 20:23:00] "GET /static/css/light.css HTTP/1.1" 304 164 0.012992
+127.0.0.1 - - [28/May/2025 20:23:02] "GET /socket.io/?EIO=4&transport=websocket&sid=sdQDf38lBZFgxvglAAAA HTTP/1.1" 200 0 9.760709
+127.0.0.1 - - [28/May/2025 20:23:02] "GET /socket.io/?EIO=4&transport=polling&t=PSNwpsv HTTP/1.1" 200 300 0.001997
+(10192) accepted ('127.0.0.1', 56888)
+127.0.0.1 - - [28/May/2025 20:23:02] "POST /socket.io/?EIO=4&transport=polling&t=PSNwpvl&sid=1XJ8Xh4IbU2ff9cbAAAC HTTP/1.1" 200 219 0.005996
+127.0.0.1 - - [28/May/2025 20:23:02] "GET /socket.io/?EIO=4&transport=polling&t=PSNwpvs&sid=1XJ8Xh4IbU2ff9cbAAAC HTTP/1.1" 200 213 0.001998
+127.0.0.1 - - [28/May/2025 20:23:02] "GET /socket.io/?EIO=4&transport=polling&t=PSNwpzg&sid=1XJ8Xh4IbU2ff9cbAAAC HTTP/1.1" 200 181 0.000998
+127.0.0.1 - - [28/May/2025 20:23:08] "POST /login HTTP/1.1" 302 547 0.017990
+127.0.0.1 - - [28/May/2025 20:23:08] "GET / HTTP/1.1" 200 7188 0.013991
+127.0.0.1 - - [28/May/2025 20:23:08] "GET /static/css/shared.css HTTP/1.1" 304 165 0.005996
+127.0.0.1 - - [28/May/2025 20:23:08] "GET /static/img/profile/default.jpg HTTP/1.1" 404 2172 0.010995
+127.0.0.1 - - [28/May/2025 20:23:09] "GET /static/img/students/nkvtf.jpg HTTP/1.1" 200 37444 0.352026
+127.0.0.1 - - [28/May/2025 20:23:09] "GET /static/css/light.css HTTP/1.1" 304 164 0.006999
+127.0.0.1 - - [28/May/2025 20:23:10] "GET /static/js/main.js HTTP/1.1" 304 162 0.006998
+127.0.0.1 - - [28/May/2025 20:23:10] "GET /socket.io/?EIO=4&transport=websocket&sid=1XJ8Xh4IbU2ff9cbAAAC HTTP/1.1" 200 0 8.268678
+127.0.0.1 - - [28/May/2025 20:23:11] "GET /static/img/profile/default.jpg HTTP/1.1" 404 2172 0.011987
+127.0.0.1 - - [28/May/2025 20:23:11] "GET /socket.io/?EIO=4&transport=polling&t=PSNws0E HTTP/1.1" 200 300 0.000998
+(10192) accepted ('127.0.0.1', 56919)
+127.0.0.1 - - [28/May/2025 20:23:11] "POST /socket.io/?EIO=4&transport=polling&t=PSNws2h&sid=Sg3CFQltTI4BLaYZAAAE HTTP/1.1" 200 219 0.009986
+127.0.0.1 - - [28/May/2025 20:23:11] "GET /socket.io/?EIO=4&transport=polling&t=PSNws2l&sid=Sg3CFQltTI4BLaYZAAAE HTTP/1.1" 200 298 0.000998
+127.0.0.1 - - [28/May/2025 20:23:11] "GET /socket.io/?EIO=4&transport=polling&t=PSNws40&sid=Sg3CFQltTI4BLaYZAAAE HTTP/1.1" 200 181 0.000000
+127.0.0.1 - - [28/May/2025 20:23:15] "GET /student_profile HTTP/1.1" 200 3981 0.195885
+127.0.0.1 - - [28/May/2025 20:23:15] "GET /static/img/students/nkvtf.jpg HTTP/1.1" 304 164 0.007994
+127.0.0.1 - - [28/May/2025 20:23:15] "GET /socket.io/?EIO=4&transport=websocket&sid=Sg3CFQltTI4BLaYZAAAE HTTP/1.1" 200 0 4.364954
+127.0.0.1 - - [28/May/2025 20:23:30] "GET /student_profile? HTTP/1.1" 200 3981 0.006997
+127.0.0.1 - - [28/May/2025 20:23:30] "GET /static/img/students/nkvtf.jpg HTTP/1.1" 304 164 0.005997
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "D:\программы\msite\profile.py", line 105, in update_student_profile
+    db.execute('''
+sqlite3.ProgrammingError: You did not supply a value for binding parameter :photo.
+127.0.0.1 - - [28/May/2025 20:23:45] "POST /update_student_profile HTTP/1.1" 500 13158 0.425754
+127.0.0.1 - - [28/May/2025 20:23:45] "GET /update_student_profile?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 6846 0.102943
+127.0.0.1 - - [28/May/2025 20:23:46] "GET /update_student_profile?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 10680 0.222873
+127.0.0.1 - - [28/May/2025 20:23:48] "GET /update_student_profile?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 70363 0.049970
+127.0.0.1 - - [28/May/2025 20:23:48] "GET /update_student_profile?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 633 0.002973
+127.0.0.1 - - [28/May/2025 20:23:49] "GET /update_student_profile?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 633 0.001997
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\hubs\selects.py", line 59, in wait
+    listeners.get(fileno, hub.noop).cb(fileno)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\greenthread.py", line 272, in main
+    result = function(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\wsgi.py", line 905, in process_request
+    self.protocol(conn_state, self)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\wsgi.py", line 365, in __init__
+    self.finish()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\wsgi.py", line 829, in finish
+    greenio.shutdown_safe(self.connection)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\eventlet\greenio\base.py", line 477, in shutdown_safe
+    return sock.shutdown(socket.SHUT_RDWR)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [WinError 10054] Удаленный хост принудительно разорвал существующее подключение
+Removing descriptor: 484
+(10192) accepted ('127.0.0.1', 58728)
+(10192) accepted ('127.0.0.1', 58729)
+127.0.0.1 - - [28/May/2025 20:30:23] "GET / HTTP/1.1" 200 7188 0.018993
+(10192) accepted ('127.0.0.1', 58733)
+(10192) accepted ('127.0.0.1', 58734)
+127.0.0.1 - - [28/May/2025 20:30:24] "GET /static/css/light.css HTTP/1.1" 304 164 0.137921
+127.0.0.1 - - [28/May/2025 20:30:24] "GET /static/css/shared.css HTTP/1.1" 304 165 0.073759
+127.0.0.1 - - [28/May/2025 20:30:24] "GET /static/img/profile/default.jpg HTTP/1.1" 404 2172 0.013994
+127.0.0.1 - - [28/May/2025 20:30:24] "GET /static/img/students/nkvtf.jpg HTTP/1.1" 304 164 0.069528
+127.0.0.1 - - [28/May/2025 20:30:25] "GET /static/js/main.js HTTP/1.1" 304 162 0.153912
+127.0.0.1 - - [28/May/2025 20:30:27] "GET /static/img/profile/default.jpg HTTP/1.1" 404 2172 0.008003
+127.0.0.1 - - [28/May/2025 20:30:27] "GET /socket.io/?EIO=4&transport=polling&t=PSNyWYH HTTP/1.1" 200 300 0.000999
+(10192) accepted ('127.0.0.1', 58736)
+127.0.0.1 - - [28/May/2025 20:30:27] "POST /socket.io/?EIO=4&transport=polling&t=PSNyWaY&sid=84npN12ps7tTf5XGAAAG HTTP/1.1" 200 219 0.005994
+127.0.0.1 - - [28/May/2025 20:30:27] "GET /socket.io/?EIO=4&transport=polling&t=PSNyWaf&sid=84npN12ps7tTf5XGAAAG HTTP/1.1" 200 298 0.001000
+127.0.0.1 - - [28/May/2025 20:30:27] "GET /socket.io/?EIO=4&transport=polling&t=PSNyWc1&sid=84npN12ps7tTf5XGAAAG HTTP/1.1" 200 181 0.001998
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /logout HTTP/1.1" 302 466 0.006994
+127.0.0.1 - - [28/May/2025 20:30:30] "GET / HTTP/1.1" 200 6925 0.010997
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /socket.io/?EIO=4&transport=websocket&sid=84npN12ps7tTf5XGAAAG HTTP/1.1" 200 0 2.979736
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /static/css/shared.css HTTP/1.1" 304 165 0.005000
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /static/js/main.js HTTP/1.1" 304 162 0.007994
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /static/img/profile/default.jpg HTTP/1.1" 404 1909 0.007996
+127.0.0.1 - - [28/May/2025 20:30:30] "GET /static/css/light.css HTTP/1.1" 304 164 0.013990
+127.0.0.1 - - [28/May/2025 20:30:32] "GET /socket.io/?EIO=4&transport=polling&t=PSNyXlL HTTP/1.1" 200 300 0.000999
+127.0.0.1 - - [28/May/2025 20:30:32] "GET /static/img/profile/default.jpg HTTP/1.1" 404 1909 0.004997
+(10192) accepted ('127.0.0.1', 58737)
+127.0.0.1 - - [28/May/2025 20:30:32] "POST /socket.io/?EIO=4&transport=polling&t=PSNyXo4&sid=FcEDy3-dMZHmce-PAAAI HTTP/1.1" 200 219 0.003997
+127.0.0.1 - - [28/May/2025 20:30:32] "GET /socket.io/?EIO=4&transport=polling&t=PSNyXo7&sid=FcEDy3-dMZHmce-PAAAI HTTP/1.1" 200 181 0.000999
+127.0.0.1 - - [28/May/2025 20:30:34] "GET /login HTTP/1.1" 200 2595 0.004996
+127.0.0.1 - - [28/May/2025 20:30:35] "GET /static/css/shared.css HTTP/1.1" 304 165 0.008996
+127.0.0.1 - - [28/May/2025 20:30:35] "GET /static/js/main.js HTTP/1.1" 304 162 0.003997
+127.0.0.1 - - [28/May/2025 20:30:35] "GET /static/css/light.css HTTP/1.1" 304 164 0.032981
+127.0.0.1 - - [28/May/2025 20:30:35] "GET /socket.io/?EIO=4&transport=websocket&sid=FcEDy3-dMZHmce-PAAAI HTTP/1.1" 200 0 2.892724
+127.0.0.1 - - [28/May/2025 20:30:37] "GET /socket.io/?EIO=4&transport=polling&t=PSNyYyM HTTP/1.1" 200 300 0.002000
+(10192) accepted ('127.0.0.1', 58740)
+127.0.0.1 - - [28/May/2025 20:30:37] "GET /socket.io/?EIO=4&transport=polling&t=PSNyYzY&sid=G9CcppeP2F8WMS44AAAK HTTP/1.1" 200 181 0.010993
+127.0.0.1 - - [28/May/2025 20:30:37] "POST /socket.io/?EIO=4&transport=polling&t=PSNyYzP&sid=G9CcppeP2F8WMS44AAAK HTTP/1.1" 200 219 0.015994
+127.0.0.1 - - [28/May/2025 20:30:48] "POST /login HTTP/1.1" 302 523 0.017988
+Traceback (most recent call last):
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2073, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "D:\программы\msite\profile.py", line 19, in index
+    return render_template('index.html',
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\templating.py", line 147, in render_template
+    return _render(
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\templating.py", line 128, in _render
+    rv = template.render(context)
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\программы\msite\templates\index.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\программы\msite\templates\base.html", line 17, in top-level template code
+    <a href="{{ url_for('profile.admin_panel') if 'profile.admin_panel' in app.view_functions else '#' }}" class="btn">Админ-панель</a>
+  File "C:\Users\User\AppData\Local\Programs\Python\Python311\Lib\site-packages\jinja2\environment.py", line 485, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'app' is undefined
+127.0.0.1 - - [28/May/2025 20:30:48] "GET / HTTP/1.1" 500 25114 0.595659
+127.0.0.1 - - [28/May/2025 20:30:49] "GET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 6846 0.081952
+127.0.0.1 - - [28/May/2025 20:30:50] "GET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 10680 0.414762
+127.0.0.1 - - [28/May/2025 20:30:51] "GET /socket.io/?EIO=4&transport=websocket&sid=G9CcppeP2F8WMS44AAAK HTTP/1.1" 200 0 14.124306
+127.0.0.1 - - [28/May/2025 20:30:51] "GET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 70363 0.069982
+127.0.0.1 - - [28/May/2025 20:30:51] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 633 0.163907
+127.0.0.1 - - [28/May/2025 20:30:53] "GET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 633 0.005998

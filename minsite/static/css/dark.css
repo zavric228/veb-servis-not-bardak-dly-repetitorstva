@@ -1,0 +1,54 @@
+/* Темная тема */
+:root {
+  --primary-color: #819fbd;
+  --secondary-color: #34495e;
+  --text-color: #ecf0f1;
+  --bg-color: #121212;
+  --border-color: #444;
+  --card-bg: #1e1e1e;
+  --error-color: #7f1d1d;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.tab-btn {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.tab-btn.active {
+  background-color: var(--primary-color);
+}
+
+.achievement-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+input,
+textarea,
+select {
+  background-color: #333 !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.search-box {
+  background-color: var(--card-bg);
+}
+
+#search-results {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.message {
+  background-color: #2d2d2d;
+}
+
+.my-message {
+  background-color: var(--primary-color);
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Репетиторская система{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/light.css') }}">
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <button id="theme-toggle">🌓</button>
+            {% if 'user' in session %}
+                {% if session.is_admin %}
+                    <a href="{{ url_for('profile.admin_panel') }}" class="btn">Админ-панель</a>
+                {% else %}
+                    <a href="{{ url_for('profile.student_profile') }}" class="profile-btn">
+                        <img src="{{ url_for('static', filename='img/students/' + (student.photo if student else 'nkvtf.jpg')) }}" 
+                             alt="Профиль"
+                             onerror="this.src='{{ url_for('static', filename='img/students/nkvtf.jpg') }}'">
+                    </a>
+                {% endif %}
+                <a href="{{ url_for('auth.logout') }}" class="btn"> Выйти </a>
+            {% else %}
+                <div class="guest-notice">Гостевой доступ</div>
+                <a href="{{ url_for('auth.login') }}" class="btn"> Войти </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

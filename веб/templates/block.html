@@ -1,0 +1,44 @@
+{% if theem=='dark' %}
+{% extends 'base_dark.html' %}
+{% else %}
+{% extends 'base_light.html' %}
+{% endif %}
+{% block tit %}<title>{{tit}}</title>{% endblock %}
+{% block content %}
+<div class="block-container">
+    <h2>{{block}}</h2>
+    <div class="images-grid">
+        {% for image in img %}
+            <img src="{{image}}" alt="Фото" class="block-image" loading="lazy">
+        {% endfor %}
+    </div>
+    <div class="homework">
+        <h3>Домашнее задание</h3>
+        <ul>
+            {% for task in hw %}
+                <li>{{task}}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<style>
+    .block-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;}
+    .images-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;}
+    .block-image {
+        width: calc(33.333% - 20px);
+        height: auto;
+        border-radius: 10px;}
+    .homework {
+        margin-top: 20px;}
+    @media (max-width: 768px) {
+        .block-image {
+            width: 100%;
+        }}
+</style>
+{% endblock %}

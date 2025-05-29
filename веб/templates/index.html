@@ -1,0 +1,82 @@
+{% if theem=='dark' %}
+{% extends 'base_dark.html' %}
+{% else %}
+{% extends 'base_light.html' %}
+{% endif %}
+{% block tit %}<title>{{tit}}</title>{% endblock %}
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="https://via.placeholder.com/1200x200" alt="Тематическая картинка" class="header-image" loading="lazy">
+        <div class="navigation-tabs">
+            <a href="/achievements" class="tab">Достижения</a>
+            <a href="/education" class="tab">Образование</a>
+            <a href="/profile" class="tab active">Личная информация</a>
+        </div>
+    </div>
+    <div class="profile-main">
+        <div class="profile-photo">
+            <img src="https://via.placeholder.com/150" alt="Фото Евгении Владимировны" class="profile-image" loading="lazy">
+        </div>
+        <div class="profile-info">
+            <h2>Евгения Владимировна</h2>
+            <p>Ник в Telegram: @evgenia_tutor</p>
+            <p>Email: evgenia@tutor.com</p>
+        </div>
+        <div class="section-buttons">
+            <p>Выберите раздел для перехода:</p>
+            <a href="/plants" class="btn">Растениеводство</a>
+            <a href="/math" class="btn">Математика</a>
+            <a href="/music" class="btn">Музыка</a>
+        </div>
+    </div>
+</div>
+<div class="achievements-section">
+    <h2>Достижения</h2>
+    <div class="achievements-grid">
+        <div class="achievement-card">
+            <h3>Математика</h3>
+            <p>Ученик Иванов Иван занял 1 место на олимпиаде.</p>
+            <img src="https://via.placeholder.com/200" alt="Диплом по математике" loading="lazy">
+        </div>
+        <div class="achievement-card">
+            <h3>Музыка</h3>
+            <p>Детский ансамбль выступил на городском конкурсе.</p>
+            <img src="https://via.placeholder.com/200" alt="Фото выступления" loading="lazy">
+        </div>
+    </div>
+</div>
+<div class="education-section">
+    <h2>Образование</h2>
+    <div class="education-grid">
+        <div class="education-card">
+            <h3>Высшее образование</h3>
+            <p>Математический факультет, МГУ.</p>
+            <img src="https://via.placeholder.com/200" alt="Диплом МГУ" loading="lazy">
+        </div>
+        <div class="education-card">
+            <h3>Повышение квалификации</h3>
+            <p>Курсы по методике преподавания.</p>
+            <img src="https://via.placeholder.com/200" alt="Сертификат" loading="lazy">
+        </div>
+    </div>
+</div>
+<style>
+    .profile-container {max-width: 1200px; margin: 0 auto; padding: 20px;}
+    .profile-header {text-align: center; margin-bottom: 20px;}
+    .header-image {width: 100%; height: auto;}
+    .navigation-tabs {display: flex; justify-content: center; gap: 20px; margin-top: 20px;}
+    .tab {padding: 10px 20px; background-color: #6786f3; color: white; text-decoration: none; border-radius: 5px;}
+    .tab.active {background-color: #3a2d74;}
+    .profile-main {text-align: center;}
+    .profile-photo img {border-radius: 50%; width: 150px; height: 150px;}
+    .profile-info {margin: 20px 0;}
+    .section-buttons {margin: 20px 0;}
+    .btn {margin: 5px; padding: 10px 20px; background-color: #6786f3; color: white; border: none; border-radius: 5px; cursor: pointer;}
+    .btn:hover {background-color: #3a2d74;}
+    .achievements-section, .education-section {max-width: 1200px; margin: 20px auto; padding: 20px;}
+    .achievements-grid, .education-grid {display: flex; flex-wrap: wrap; gap: 20px;}
+    .achievement-card, .education-card {background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); width: calc(50% - 20px); text-align: center;}
+    .achievement-card img, .education-card img {width: 100%; height: auto; border-radius: 10px;}
+</style>
+{% endblock %}

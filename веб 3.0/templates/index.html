@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-container">
+    <h1>Профиль преподавателя</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="personal">Личная информация</button>
+        <button class="tab-btn" data-tab="achievements">Мои достижения</button>
+        {% if is_admin %}
+            <button class="tab-btn" data-tab="students">Достижения учеников</button>
+        {% endif %}
+    </div>
+    
+    <div class="tab-content active" id="personal">
+        {% include 'sections/personal.html' %}
+    </div>
+    
+    <div class="tab-content" id="achievements">
+        {% include 'sections/achievements.html' %}
+    </div>
+    
+    {% if is_admin %}
+        <div class="tab-content" id="students">
+            {% include 'sections/students.html' %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

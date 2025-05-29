@@ -1,0 +1,105 @@
+<div class="personal-section">
+    <div class="profile-header">
+        <div class="profile-photo">
+            <img src="{{ url_for('static', filename='img/avatars/' + profile.photo) }}" 
+                 alt="Фото преподавателя"
+                 onerror="this.onerror=null; this.src='{{ url_for('static', filename='img/avatars/default.jpg') }}'">
+        </div>
+        <div class="profile-info">
+            <h2>{{ profile.name }}</h2>
+            <p><strong>Телефон:</strong> {{ profile.phone if profile.phone else 'не указан' }}</p>
+            <p><strong>Email:</strong> {{ profile.email if profile.email else 'не указан' }}</p>
+            <p><strong>Telegram:</strong> {{ profile.telegram if profile.telegram else 'не указан' }}</p>
+        </div>
+    </div>
+
+    {% if session.is_admin %}
+    <form class="edit-form" method="POST" action="{{ url_for('profile.update_profile') }}" enctype="multipart/form-data">
+        <div class="form-row">
+            <label for="name">Имя:</label>
+            <input type="text" id="name" name="name" value="{{ profile.name }}" required>
+        </div>
+        <div class="form-row">
+            <label for="phone">Телефон:</label>
+            <input type="tel" id="phone" name="phone" value="{{ profile.phone }}">
+        </div>
+        <div class="form-row">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ profile.email }}">
+        </div>
+        <div class="form-row">
+            <label for="telegram">Telegram:</label>
+            <input type="text" id="telegram" name="telegram" value="{{ profile.telegram }}">
+        </div>
+        <div class="form-row">
+            <label for="photo">Фото:</label>
+            <input type="file" id="photo" name="photo" accept="image/*">
+        </div>
+        <button type="submit" class="btn">Сохранить изменения</button>
+    </form>
+    {% endif %}
+
+    <style>
+    .personal-section {
+        padding: 20px;
+        background-color: var(--card-bg);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+    .profile-photo {
+        flex-shrink: 0;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid var(--primary-color);
+    }
+    .profile-photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .profile-info {
+        flex-grow: 1;
+    }
+    .profile-info p {
+        margin: 10px 0;
+        font-size: 1.1em;
+    }
+    .edit-form {
+        max-width: 600px;
+        margin-top: 30px;
+        padding: 20px;
+        background-color: var(--bg-color);
+        border-radius: 8px;
+    }
+    .form-row {
+        margin-bottom: 15px;
+    }
+    .form-row label {
+        display: inline-block;
+        width: 120px;
+        font-weight: bold;
+    }
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+        }
+    }
+        /* Добавить в конец стилей */
+    .personal-section {
+        margin-bottom: 30px;
+    }
+    </style>
+</div>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-panel">
+    <h1>Панель администратора</h1>
+    
+    <div class="search-section">
+        <input type="text" id="student-search" 
+               placeholder="Поиск ученика..." 
+               oninput="searchStudents(this.value)">
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <div class="chat-list">
+        {% for chat in active_chats %}
+        <div class="chat-item" onclick="location.href='/admin_chat/{{ chat.sender }}'">
+            <div class="chat-header">
+                <img src="{{ url_for('static', filename='img/students/' + (students|selectattr('username', 'equalto', chat.sender)|first|attr('photo')) }}"
+                     onerror="this.src='{{ url_for('static', filename='img/students/nkvtf.jpg') }}'">
+                <h3>{{ chat.sender }}</h3>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function searchStudents(query) {
+    if (query.length < 2) {
+        document.getElementById('search-results').innerHTML = '';
+        return;
+    }
+    
+    fetch(`/api/students?q=${encodeURIComponent(query)}`)
+    .then(response => response.json())
+    .then(data => {
+        const results = document.getElementById('search-results');
+        results.innerHTML = data.map(student => `
+            <div class="student-result" 
+                 onclick="location.href='/admin_chat/${student.username}'">
+                ${student.username}${student.name ? ` (${student.name})` : ''}
+            </div>
+        `).join('');
+    });
+}
+</script>
+{% endblock %}

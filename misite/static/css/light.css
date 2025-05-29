@@ -1,0 +1,34 @@
+/* Светлая тема */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --bg-color: #f9f9f9;
+  --border-color: #ddd;
+  --card-bg: #fff;
+  --error-color: #e74c3c;
+}
+
+.tab-btn {
+  background-color: #eee;
+  color: #333;
+}
+
+.tab-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.achievement-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.search-box {
+  background-color: white;
+}
+
+#search-results {
+  background-color: white;
+  border: 1px solid var(--border-color);
+}

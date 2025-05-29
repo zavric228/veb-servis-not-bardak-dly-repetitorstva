@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <h2>Вход</h2>
+    <form method="POST" action="{{ url_for('login') }}">
+        <div class="form-group">
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username" required maxlength="100">
+        </div>
+        
+        {% if ask_password %}
+            <div class="form-group" id="password-field">
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+        {% endif %}
+        
+        <button type="submit" class="btn">Войти</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('username').addEventListener('input', function(e) {
+    if (e.target.value === 'zavric228') {
+        window.location.href = "{{ url_for('login') }}?ask_password=true";
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}  
+
+{% block content %}  
+<div class="student-profile">  
+    <!-- Заголовок профиля -->  
+    <div class="profile-header">  
+        <div class="profile-photo">  
+            <img src="{{ url_for('static', filename='img/students/' + student.photo) }}"  
+                 alt="Фото ученика"  
+                 onerror="this.src='{{ url_for('static', filename='img/students/nkvtf.jpg') }}'">  
+        </div>  
+        <div class="profile-info">  
+            <h2>{{ student.name }}</h2>  
+            <p><strong>Уровень:</strong> {{ student.level }}</p>  
+            
+            {% if session.user.is_admin or session.user.username == student.username %}  
+            <button class="edit-btn" id="edit-profile-btn">✍️ Редактировать</button>  
+            {% endif %}  
+        </div>  
+    </div>  
+
+    <!-- Чат -->  
+    <div class="chat-container">  
+        <div id="chat-messages">  
+            {% for message in messages %}  
+            <div class="message {% if message.sender == session.user.username %}my-message{% endif %}">  
+                <p>{{ message.text }}</p>  
+                {% if message.file %}  
+                <div class="message-file">  
+                    <img src="{{ message.file }}" alt="Прикрепленный файл">  
+                </div>  
+                {% endif %}  
+                <span class="message-time">{{ message.timestamp }}</span>  
+            </div>  
+            {% endfor %}  
+        </div>  
+        
+        <!-- Форма отправки -->  
+        <form id="chat-form">  
+            <div class="message-input">  
+                <input type="text" id="message-input" placeholder="Напишите сообщение...">  
+                <label for="file-input" class="file-upload-btn">📎</label>  
+                <input type="file" id="file-input" accept="image/*">  
+                <button type="submit" class="send-btn">Отправить</button>  
+            </div>  
+        </form>  
+    </div>  
+</div>  
+
+<!-- Модальное окно редактирования -->  
+{% if session.user.is_admin or session.user.username == student.username %}  
+<div id="edit-modal" class="modal">  
+    <div class="modal-content">  
+        <span class="close-btn">&times;</span>  
+        <h3>Редактирование профиля</h3>  
+        <form method="POST" action="/update_student_profile" enctype="multipart/form-data">  
+            <input type="hidden" name="student_id" value="{{ student.id }}">  
+            <div class="form-row">  
+                <label>Имя:</label>  
+                <input type="text" name="name" value="{{ student.name }}" required>  
+            </div>  
+            <div class="form-row">  
+                <label>Уровень:</label>  
+                <input type="text" name="level" value="{{ student.level }}" required>  
+            </div>  
+            <div class="form-row">  
+                <label>Фото:</label>  
+                <input type="file" name="photo" accept="image/*">  
+            </div>  
+            <button type="submit" class="btn">Сохранить</button>  
+        </form>  
+    </div>  
+</div>  
+{% endif %}  
+{% endblock %}  

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="students-section">
+    <h3>Достижения учеников</h3>
+    
+    {% if is_admin %}
+    <div class="search-box">
+        <input type="text" id="student-search" placeholder="Поиск учеников..." 
+               oninput="searchStudents(this.value)">
+        <div id="search-results"></div>
+    </div>
+    
+    <form class="add-form" method="POST" action="{{ url_for('add_achievement') }}" enctype="multipart/form-data">
+        <input type="hidden" name="is_student" value="1">
+        <div class="form-row">
+            <label>Ученик:</label>
+            <select name="student_id" id="student-select" required>
+                {% for student in all_students %}
+                    <option value="{{ student.id }}">{{ student.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Изображение достижения:</label>
+            <input type="file" name="image" accept="image/*" required>
+        </div>
+        <div class="form-row">
+            <label>Описание:</label>
+            <textarea name="description" required></textarea>
+        </div>
+        <button type="submit" class="btn">Добавить</button>
+    </form>
+    {% endif %}
+
+    <div class="achievements-grid">
+        {% for achievement in student_achievements %}
+        <div class="achievement-card">
+            <img src="{{ url_for('static', filename='img/students_achievements/' + achievement.image) }}" 
+                 alt="Достижение ученика">
+            <div class="achievement-info">
+                <p><strong>Ученик:</strong> {{ achievement.student_name }}</p>
+                <p>{{ achievement.description }}</p>
+                {% if is_admin %}
+                <form method="POST" action="{{ url_for('delete_achievement', id=achievement.id) }}">
+                    <button type="submit" class="delete-btn">🗑️ Удалить</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <div class="no-achievements">Нет достижений учеников</div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function searchStudents(query) {
+    fetch(`/api/students?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('student-select');
+            select.innerHTML = '';
+            data.forEach(student => {
+                const option = document.createElement('option');
+                option.value = student.id;
+                option.textContent = student.username;
+                select.appendChild(option);
+            });
+        });
+}
+</script>
+{% endblock %}

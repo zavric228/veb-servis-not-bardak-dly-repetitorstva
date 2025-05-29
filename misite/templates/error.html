@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-header">
+        <h2>⚠️ Ошибка {{ error.code if error.code else '500' }}</h2>
+    </div>
+    <div class="error-body">
+        <p class="error-info">
+            {% if error.info %}
+                {{ error.info }}
+            {% else %}
+                Произошла непредвиденная ошибка
+            {% endif %}
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('index') }}" class="btn">На главную</a>
+            <button onclick="history.back()" class="btn">Назад</button>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+.error-header h2 {
+    color: var(--error-color);
+    margin-bottom: 20px;
+}
+
+.error-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+</style>
+{% endblock %}

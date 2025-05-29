@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-chat">
+    <div class="chat-header">
+        <img src="{{ url_for('static', filename='img/students/' + student.photo) }}" 
+             onerror="this.src='{{ url_for('static', filename='img/students/nkvtf.jpg') }}'">
+        <h2>{{ student.username }}</h2>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+        {% for message in messages %}
+        <div class="message {% if message.sender == current_user %}my-message{% endif %}">
+            <p>{{ message.text }}</p>
+            {% if message.file %}
+            <img src="{{ message.file }}" class="attached-file">
+            {% endif %}
+            <span class="timestamp">{{ message.timestamp }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form id="chat-form" onsubmit="sendAdminMessage(event)">
+        <div class="message-input">
+            <input type="text" id="message-input" placeholder="Введите сообщение...">
+            <label class="file-upload">
+                📎
+                <input type="file" id="file-input" hidden accept="image/*">
+            </label>
+            <button type="submit">Отправить</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function sendAdminMessage(e) {
+    e.preventDefault();
+    const input = document.getElementById('message-input');
+    const file = document.getElementById('file-input').files[0];
+    
+    if (!input.value && !file) return;
+
+    const reader = new FileReader();
+    if (file) {
+        reader.onload = function() {
+            socket.emit('admin_message', {
+                text: input.value,
+                file: {
+                    data: new Uint8Array(reader.result),
+                    ext: file.name.split('.').pop()
+                }
+            });
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        socket.emit('admin_message', { text: input.value });
+    }
+    
+    input.value = '';
+    document.getElementById('file-input').value = '';
+}
+</script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}  
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-header">
+        <h2>⚠️ Ошибка</h2>
+    </div>
+    <div class="error-body">
+        <p class="error-description">{{ error }}</p>
+        <div class="error-actions">
+            <a href="{{ url_for('index') }}" class="btn">На главную</a>
+            <button onclick="history.back()" class="btn">Назад</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

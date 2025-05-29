@@ -1,0 +1,47 @@
+<div class="chat-section">
+    <h3>Чат с преподавателем</h3>
+    <div class="chat-container">
+        <div id="chat-messages">
+            {% for message in messages %}
+            {% if message.sender=='tutor' %}
+            <div class="my-message">
+            {% else %}
+            <div class="message">
+            {% endif %}
+                <p>{{ message.text }}</p>
+                <span class="message-time">{{ message.timestamp }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        <form id="chat-form" class="message-input">
+            <input type="text" id="message-input" placeholder="Введите сообщение">
+            <button type="submit" class="btn">Отправить</button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.getElementById('chat-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const messageInput = document.getElementById('message-input');
+    const text = messageInput.value.trim();
+    socket.emit('message', { text: text });
+    messageInput.value = '';
+});
+
+socket.on('new_message', function(data) {
+    const messagesDiv = document.getElementById('chat-messages');
+    const messageEl = document.createElement('div');
+    const isMyMessage = data.sender === '{{ session.user }}';
+    messageEl.className = `message ${isMyMessage ? 'my-message' : ''}`;
+    
+    messageEl.innerHTML = `
+        <p>${data.text || ''}</p>
+        ${data.file ? `<img src="${data.file}" class="chat-image">` : ''}
+        <span class="message-time">${data.timestamp}</span>
+    `;
+    
+    messagesDiv.appendChild(messageEl);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+</script>

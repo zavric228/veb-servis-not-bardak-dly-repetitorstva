@@ -1,0 +1,946 @@
+и так структура проекта:
+site/ (корневая директория проекта)
+├── __init__.py              # Пустой файл
+├── app.py                 # Главный файл приложения
+├── database.py            # Файл для работы с базой данных (инициализация, подключение)
+├── auth.py                # Аутентификация (логин, логаут)
+├── profile.py             # Профили (преподавателя, ученика)
+├── chat.py                # Чат (WebSocket обработчики, HTTP маршруты для админки)
+├── achievements.py        # Достижения (добавление, удаление)
+├── static/                # Статические файлы
+│   ├── css/               # Стили
+│   │   ├── dark.css
+│   │   ├── light.css
+│   │   └── shared.css
+│   ├── js/                # JavaScript
+│   │   └── main.js
+│   ├── img/               # Изображения
+│   │   ├── profile/               # Фото профиля преподавателя
+│   │   ├── achievements/          # Фото достижений преподавателя
+│   │   ├── students/              # Фото учеников
+│   │   └── students_achievements/ # Фото достижений учеников
+│   └── chat_files/        # Файлы чата (загруженные изображения)
+└── templates/             # Шаблоны
+    ├── login.html         # Страница входа
+    ├── admin_panel.html   # Админ-панель
+    ├── sections/          # Подключаемые секции
+    │   ├── achievements.html  # Секция достижений преподавателя
+    │   ├── personal.html      # Личная информация преподавателя
+    │   ├── students.html      # Достижения учеников
+    │   └── student_profil.html# Профиль ученика
+    ├── base.html          # Базовый шаблон
+    ├── index.html         # Главная страница
+    └── error.html         # Страница ошибки
+суть проекта заключается в удобном взаимодействии учеников и одного репетитора,для которого этот сайт и создаётся
+на сайте есть 3 роли (пока что):
+админы (он пока 1): без проблем могут зайти на любую из страничек сайта более того, есть секретная страничка, на которую может зайти только админ. они, так-же могут менять всё, что может менять кто-либо другой и имеют доступ к секретной страничке для админов, в кот орой могут искать уеников по их логинам (что-бы заходить на их профиль и при надобности что-то в профиле менять) и отвечать в чатах ученикам.
+ученики: могут зайти только на 3 странички (профиль репетитора, свой профиль (они так-же могут менять информацию в своём профиле) и страничка авторизации). так-же могут всё, что могут неавторизованные пользователи, кроме входа в аккаунт. вместо кнопки "войти", у учеников присутствует кнопка "выйти" (у админов, кстати, тоже).
+неавторизованные пользователи: могут видеть только профиль репетитора, менять тему сайта для себя, переходить по разделам в профиле репетитора и могут авторизоваться (тем самым став либо учеником, либо админом).
+авторизация должна происходить следующим образом: неавторизованный пользователь переходит по кнопке "войти" и его переносит на страничку авторизации. на ней он видит поле ввода логина и кнопку для подтверждения логина. если неавторизованный пользователь введёт логин, который не принадлежит админу и нажмёт на кнопку для подтверждения логина, в системе, он из неавторизованного пользователя станет учеником. если он в поле ввода логина напишет логин одного из админов (на сегодняшний момент - zavric228), с низу поля ввода логина должно появиться (без перезагрузки страницы), поле для ввода пароля. что-бы войти, как админ, неавторизованному пользователю нужно ввести в поле ввода пароля пароль "12345679" (позже я поменяю этот пароль, но уже после завершения работы над проектом).
+админы должны мочь добавлять/удалять достижения учеников (тогда добавленное достижение появится в разделе "достижения моих учеников" на страничке профиля репетитора и в разделе "мои достижения" на страничке профиля ученика, достижение которого было добавлено). так-же админы должны иметь возможность добавлять/удалять достижения в достижения репетитора (раздел "мои достижения на страничке профиля репетитора"). как это должно работать: администратор заходит в раздел, в названии которого присутствует слово "достижения" и в низу раздела, под достижениями (или их отсутствием) для администратора (и только для него) должна виднеться поле ввода описания достижения, поле ввода для логина, кого это достижение (туда можно указать слово "репетитор", и тогда это достижение появится в разделе "мои достижения" на страничке профиля репетитора) и форма прикрепления файла (пока что прикреплять файл не обязательно), а именно фото/электронный документ диплома. как ты мог понять, независимо от того, на какой страничке было добавлено достижение, оно будет добавлено в "достижения моих учеников" (на страничке профиля репетитора) и в "мои достижения" (на страничке владельца достижения) в случае, если в поле ввода, кого это достижение не было указано "репетитор" и только в раздел "мои достижения" (странички профиля репетитора) в противном случае.
+примерно опишу страничку профиля ученика: она почти такая-же, как и страничка профиля репетитора, за исключение того, что на месте кнопки для перехода в профиль учителя, должна быть кнопка для перехода в профиль репетитора (вместо фото ученика, фото преподавателя (я гарантирую, что фото преподавателя хранится по расположению static/img/profil/photo.jpg) вместо раздела «Достижения учеников» раздел «Чат с репетитором». В разделе «Мои достижения» в профиле ученика должны храниться достижения этого ученика (или их отсутствие)).
+схема работы с новыми и старыми учениками проста: если ученик ранее не упоминался (то-есть нету записей о нём в базах данных), при первом упоминании (например при создании достижения или при входе этого ученика в первый раз на сайт), создаются записи в базах данных (изначально только его имя (логин) и фото на аватарку (по умолчанию nkvtf.jpg), которое ученик может в последствии заменить и пустое поля для ввода личной информации, которую ученик так-же сможет в последствии заменить) и новый чат (один конец в профиле ученика, другой конец - один из возможных чатов в секретной страничке для админов). но только при первом. если для ученика уже создан чат и записи в базах данных, он просто получает доступ к этому чату и профилю ученика с логином, который ввёл.
+чат нужен для проверки домашнего задания ученика репетитором, поэтому через него можно пересылать только текстовые сообщения и картинки.
+это в кратце описывает мой сайт, но я мог что-то упустить. в низу отправил файлы проекта. некоторые файлы могут конфликтовать и это тоже является ошибкой.
+
+achievements.py:
+from flask import Blueprint, session, request, redirect, url_for, flash, current_app
+from werkzeug.utils import secure_filename
+
+
+achievements_bp = Blueprint('achievements', __name__)
+
+@achievements_bp.route('/add_achievement', methods=['POST'])
+def add_achievement():
+    if 'user' not in session or not session.get('is_admin', False):
+        abort(403)
+    
+    if 'image' not in request.files or request.files['image'].filename == '':
+        flash('Файл изображения обязателен', 'error')
+        return redirect(url_for('index'))
+    
+    file = request.files['image']
+    if not allowed_file(file.filename):
+        flash('Недопустимый формат файла', 'error')
+        return redirect(url_for('index'))
+    
+    info = request.form['info']
+    student_username = request.form.get('student_username', '').strip()
+    is_student = 1
+    student_id = None
+
+    if student_username.lower() == 'репетитор':
+        is_student = 0
+    else:
+        db = get_db()
+        student = db.execute(
+            'SELECT id FROM students WHERE username = ?', 
+            (student_username,)
+        ).fetchone()
+        
+        if not student:
+            db.execute('INSERT INTO students (username) VALUES (?)', (student_username,))
+            db.commit()
+            student = db.execute(
+                'SELECT id FROM students WHERE username = ?', 
+                (student_username,)
+            ).fetchone()
+        
+        student_id = student['id']
+
+    filename = secure_filename(file.filename)
+    upload_folder = (
+        current_app.config['UPLOAD_FOLDER_STUDENTS_ACHIEVEMENTS'] 
+        if is_student 
+        else current_app.config['UPLOAD_FOLDER_ACHIEVEMENTS']
+    )
+    file.save(os.path.join(upload_folder, filename))
+
+    db = get_db()
+    db.execute('''
+        INSERT INTO achievements 
+        (user_id, image, info, is_student, student_id) 
+        VALUES (1, ?, ?, ?, ?)
+    ''', (filename, info, is_student, student_id))
+    db.commit()
+    flash('Достижение добавлено', 'success')
+    return redirect(url_for('index'))
+
+@achievements_bp.route('/delete_achievement/<int:id>', methods=['POST'])
+def delete_achievement(id):
+    if 'user' not in session or not session.get('is_admin', False):
+        abort(403)
+    
+    db = get_db()
+    achievement = db.execute('SELECT * FROM achievements WHERE id = ?', (id,)).fetchone()
+    
+    if not achievement:
+        flash('Достижение не найдено', 'error')
+        return redirect(url_for('index'))
+    
+    upload_folder = (
+        current_app.config['UPLOAD_FOLDER_STUDENTS_ACHIEVEMENTS'] 
+        if achievement['is_student'] 
+        else current_app.config['UPLOAD_FOLDER_ACHIEVEMENTS']
+    )
+    file_path = os.path.join(upload_folder, achievement['image'])
+    
+    if os.path.exists(file_path) and achievement['image'] != 'default_achievement.jpg':
+        os.remove(file_path)
+    
+    db.execute('DELETE FROM achievements WHERE id = ?', (id,))
+    db.commit()
+    flash('Достижение удалено', 'success')
+    return redirect(url_for('index'))
+
+app.py:
+from flask import Flask, redirect, url_for, session, render_template, request, flash, abort
+from flask_socketio import SocketIO, emit
+import os
+import time
+from database import init_db, get_db, allowed_file
+from auth import auth_bp
+from profile import profile_bp
+from chat import chat_bp
+from achievements import achievements_bp
+
+app = Flask(__name__)
+app.secret_key = os.urandom(24)
+app.config.update(
+    UPLOAD_FOLDER_PROFILE='static/img/profile',
+    UPLOAD_FOLDER_ACHIEVEMENTS='static/img/achievements',
+    UPLOAD_FOLDER_STUDENTS_ACHIEVEMENTS='static/img/students_achievements',
+    DATABASE='database.db',
+    ALLOWED_EXTENSIONS={'png', 'jpg', 'jpeg'},
+    MAX_CONTENT_LENGTH=20 * 1024 * 1024,
+    TEMPLATES_AUTO_RELOAD=True
+)
+
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+# Регистрация Blueprint
+app.register_blueprint(auth_bp)
+app.register_blueprint(profile_bp)
+app.register_blueprint(chat_bp)
+app.register_blueprint(achievements_bp)
+
+@app.route('/')
+def index():
+    db = get_db()
+    profile = db.execute('SELECT * FROM profile WHERE user_id = 1').fetchone()
+    achievements = db.execute('SELECT * FROM achievements WHERE is_student = 0').fetchall()
+    student_achievements = db.execute('''
+        SELECT a.*, s.username as student_name 
+        FROM achievements a
+        LEFT JOIN students s ON a.student_id = s.id
+        WHERE a.is_student = 1
+    ''').fetchall()
+
+    return render_template('index.html',
+        profile=dict(profile) if profile else {},
+        achievements=achievements,
+        student_achievements=student_achievements,
+        is_admin=session.get('is_admin', False),
+        logged_in='user' in session
+    )
+
+@app.errorhandler(403)
+def forbidden(e):
+    return render_template('error.html', error={'code': 403, 'info': 'Доступ запрещен'}), 403
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('error.html', error={'code': 404, 'info': 'Страница не найдена'}), 404
+
+@app.errorhandler(500)
+def internal_error(e):
+    return render_template('error.html', error={'code': 500, 'info': 'Внутренняя ошибка сервера'}), 500
+
+@socketio.on('connect')
+def handle_connect():
+    if 'user' in session:
+        emit('user_connected', {
+            'username': session['user'],
+            'is_admin': session.get('is_admin', False)
+        })
+
+@socketio.on('message')
+def handle_message(data):
+    if 'user' not in session:
+        return
+    
+    file_url = None
+    if 'file' in data:
+        filename = f"{session['user']}_{int(time.time())}.{data['file']['ext']}"
+        filepath = os.path.join('static/chat_files', filename)
+        with open(filepath, 'wb') as f:
+            f.write(data['file']['data'])
+        file_url = f"/static/chat_files/{filename}"
+
+    db = get_db()
+    db.execute('INSERT INTO messages (sender, text, file) VALUES (?, ?, ?)', 
+              (session['user'], data['text'], file_url))
+    db.commit()
+
+    emit('new_message', {
+        'text': data['text'],
+        'file': file_url,
+        'sender': session['user'],
+        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+    }, broadcast=True)
+
+if __name__ == '__main__':
+    os.makedirs(app.config['UPLOAD_FOLDER_PROFILE'], exist_ok=True)
+    os.makedirs(app.config['UPLOAD_FOLDER_ACHIEVEMENTS'], exist_ok=True)
+    os.makedirs(app.config['UPLOAD_FOLDER_STUDENTS_ACHIEVEMENTS'], exist_ok=True)
+    os.makedirs('static/chat_files', exist_ok=True)
+    
+    if not os.path.exists(app.config['DATABASE']):
+        init_db(app)
+    
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)
+
+auth.py:
+from flask import Blueprint, session, request, redirect, url_for, flash, render_template
+from database import get_db
+
+auth_bp = Blueprint('auth', __name__)
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form.get('password', '')
+        
+        db = get_db()
+        user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        
+        if username.lower() == 'zavric228':
+            if not user or user['password'] != password:
+                flash('Неверный пароль администратора', 'error')
+                return redirect(url_for('auth.login'))
+            
+            session['user'] = user['username']
+            session['is_admin'] = True
+            return redirect(url_for('index'))
+        else:
+            if not user:
+                db.execute('INSERT INTO users (username) VALUES (?)', (username,))
+                db.execute('INSERT INTO students (username) VALUES (?)', (username,))
+                db.commit()
+            
+            session['user'] = username
+            session['is_admin'] = False
+            return redirect(url_for('index'))
+    
+    return render_template('login.html')
+
+@auth_bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+chat.py:
+from flask import Blueprint, session, request, jsonify, abort
+from flask_socketio import emit
+import os
+import time
+from database import get_db
+
+chat_bp = Blueprint('chat', __name__)
+
+@chat_bp.route('/admin_chats')
+def admin_chats():
+    if not session.get('user') or not session['user']['is_admin']:
+        abort(403)
+    
+    with get_db() as db:
+        messages = db.execute('''
+            SELECT m.*, s.photo as student_photo 
+            FROM messages m
+            LEFT JOIN students s ON m.sender = s.username
+            ORDER BY m.timestamp DESC
+        ''').fetchall()
+    
+    return jsonify([dict(msg) for msg in messages])
+
+def register_socket_handlers(socketio):
+    @socketio.on('connect')
+    def handle_connect():
+        if 'user' in session:
+            emit('user_connected', {
+                'username': session['user'],
+                'is_admin': session.get('is_admin', False)
+            })
+
+    @socketio.on('message')
+    def handle_message(data):
+        if 'user' not in session:
+            return
+        
+        file_url = None
+        if 'file' in data:
+            filename = f"{session['user']}_{int(time.time())}.{data['file']['ext']}"
+            filepath = os.path.join('static/chat_files', filename)
+            with open(filepath, 'wb') as f:
+                f.write(data['file']['data'])
+            file_url = f"/static/chat_files/{filename}"
+
+        db = get_db()
+        db.execute('''
+            INSERT INTO messages (sender, text, file)
+            VALUES (?, ?, ?)
+        ''', (session['user'], data['text'], file_url))
+        db.commit()
+
+        emit('new_message', {
+            'text': data['text'],
+            'file': file_url,
+            'sender': session['user'],
+            'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+        }, broadcast=True)
+
+database.py:
+import sqlite3
+from flask import current_app
+
+def get_db():
+    conn = sqlite3.connect(current_app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in current_app.config['ALLOWED_EXTENSIONS']
+
+def init_db(app):
+    with app.app_context():
+        db = get_db()
+        cursor = db.cursor()
+        
+        cursor.executescript('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT,
+                is_admin BOOLEAN DEFAULT 0
+            );
+            
+            CREATE TABLE IF NOT EXISTS profile (
+                user_id INTEGER PRIMARY KEY,
+                name TEXT DEFAULT '',
+                phone TEXT DEFAULT '',
+                email TEXT DEFAULT '',
+                telegram TEXT DEFAULT '',
+                photo TEXT DEFAULT 'default.jpg'
+            );
+            
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY,
+                username TEXT UNIQUE NOT NULL,
+                photo TEXT DEFAULT 'nkvtf.jpg',
+                name TEXT DEFAULT '',
+                class_is TEXT DEFAULT ''
+            );
+            
+            CREATE TABLE IF NOT EXISTS achievements (
+                id INTEGER PRIMARY KEY,
+                user_id INTEGER,
+                image TEXT NOT NULL,
+                info TEXT NOT NULL,
+                is_student BOOLEAN DEFAULT 0,
+                student_id INTEGER
+            );
+            
+            CREATE TABLE IF NOT EXISTS messages (
+                id INTEGER PRIMARY KEY,
+                sender TEXT NOT NULL,
+                text TEXT NOT NULL,
+                file TEXT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+            );
+        ''')
+        
+        cursor.execute('''
+            INSERT OR IGNORE INTO users (username, password, is_admin)
+            VALUES (?, ?, 1)
+        ''', ('zavric228', '12345679'))
+        
+        cursor.execute('INSERT OR IGNORE INTO profile (user_id) VALUES (1)')
+        db.commit()
+
+profile.py:
+from flask import Blueprint, session, request, redirect, url_for, flash, render_template, abort, jsonify, current_app
+from werkzeug.utils import secure_filename
+
+
+profile_bp = Blueprint('profile', __name__)
+
+@profile_bp.route('/')
+def index():
+    db = get_db()
+    profile = db.execute('SELECT * FROM profile WHERE user_id = 1').fetchone()
+    achievements = db.execute('SELECT * FROM achievements WHERE is_student = 0').fetchall()
+    student_achievements = db.execute('''
+        SELECT a.*, s.username as student_name 
+        FROM achievements a
+        LEFT JOIN students s ON a.student_id = s.id
+        WHERE a.is_student = 1
+    ''').fetchall()
+
+    return render_template('index.html',
+        profile=dict(profile) if profile else {},
+        achievements=achievements,
+        student_achievements=student_achievements,
+        is_admin=session.get('is_admin', False),
+        logged_in='user' in session
+    )
+
+@profile_bp.route('/student_profile')
+def student_profile():
+    if 'user' not in session:
+        return redirect(url_for('auth.login'))
+    
+    db = get_db()
+    student = db.execute('SELECT * FROM students WHERE username = ?', (session['user'],)).fetchone()
+    
+    if not student:
+        student = {'username': session['user'], 'photo': 'nkvtf.jpg', 'name': ''}
+        db.execute('INSERT INTO students (username) VALUES (?)', (student['username'],))
+        db.commit()
+        student = db.execute('SELECT * FROM students WHERE username = ?', (session['user'],)).fetchone()
+    
+    messages = db.execute('''
+        SELECT * FROM messages 
+        WHERE sender = ? OR sender = 'tutor'
+        ORDER BY timestamp DESC
+    ''', (session['user'],)).fetchall()
+
+    return render_template('sections/student_profil.html',
+        student=dict(student),
+        messages=messages
+    )
+
+@profile_bp.route('/update_profile', methods=['POST'])
+def update_profile():
+    if 'user' not in session or not session.get('is_admin', False):
+        abort(403)
+    
+    name = request.form['name']
+    phone = request.form['phone']
+    email = request.form['email']
+    telegram = request.form['telegram']
+    
+    db = get_db()
+    db.execute('''
+        INSERT OR REPLACE INTO profile 
+        (user_id, name, phone, email, telegram) 
+        VALUES (1, ?, ?, ?, ?)
+    ''', (name, phone, email, telegram))
+    
+    if 'photo' in request.files:
+        file = request.files['photo']
+        if file.filename != '' and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            upload_folder = current_app.config['UPLOAD_FOLDER_PROFILE']
+            file.save(os.path.join(upload_folder, filename))
+            db.execute('UPDATE profile SET photo = ? WHERE user_id = 1', (filename,))
+    
+    db.commit()
+    flash('Профиль успешно обновлён', 'success')
+    return redirect(url_for('index'))
+
+@profile_bp.route('/update_student_profile', methods=['POST'])
+def update_student_profile():
+    if 'user' not in session:
+        abort(403)
+    
+    student_id = request.form['student_id']
+    name = request.form['name']
+    class_is = request.form['class_is']
+    
+    db = get_db()
+    if not session['is_admin']:
+        student = db.execute('SELECT username FROM students WHERE id = ?', (student_id,)).fetchone()
+        if not student or student['username'] != session['user']:
+            abort(403)
+    
+    update_data = {'name': name, 'class_is': class_is}
+    if 'photo' in request.files:
+        file = request.files['photo']
+        if file.filename and allowed_file(file.filename):
+            filename = secure_filename(f"{student_id}_{file.filename}")
+            upload_folder = current_app.config['UPLOAD_FOLDER_STUDENTS_ACHIEVEMENTS']
+            file.save(os.path.join(upload_folder, filename))
+            update_data['photo'] = filename
+    
+    db.execute('''
+        UPDATE students 
+        SET name = :name, 
+            class_is = :class_is, 
+            photo = COALESCE(:photo, photo) 
+        WHERE id = :id
+    ''', {**update_data, 'id': student_id})
+    db.commit()
+    flash('Профиль ученика обновлён', 'success')
+    return redirect(url_for('profile.student_profile'))
+
+@profile_bp.route('/api/students')
+def api_students():
+    if 'user' not in session or not session.get('is_admin', False):
+        abort(403)
+    
+    query = request.args.get('q', '')
+    db = get_db()
+    students = db.execute('''
+        SELECT id, username, name 
+        FROM students 
+        WHERE username LIKE ? 
+        LIMIT 10
+    ''', (f'%{query}%',)).fetchall()
+    return jsonify([dict(row) for row in students])
+
+@profile_bp.route('/admin_panel')
+def admin_panel():
+    if not session.get('is_admin', False):
+        abort(403)
+    
+    db = get_db()
+    messages = db.execute('''
+        SELECT m.*, s.photo as student_photo 
+        FROM messages m
+        LEFT JOIN students s ON m.sender = s.username
+        ORDER BY m.timestamp DESC
+    ''').fetchall()
+    
+    return render_template('admin_panel.html', messages=messages)
+
+static/css/shared.css:
+/* Базовые стили для всех тем */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --bg-color: #f9f9f9;
+  --border-color: #ddd;
+  --card-bg: #fff;
+  --error-color: #e74c3c;
+  --success-color: #2ecc71;
+}
+
+/* Исправление фото ученика */
+.profile-photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #ddd;
+}
+
+/* Исправление полей ввода */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Чат с репетитором */
+.chat-section {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  background-color: var(--primary-color);
+  padding: 15px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.header-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 15px;
+  padding: 0 20px;
+}
+
+.btn {
+  padding: 8px 15px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background: var(--secondary-color);
+}
+
+.auth-container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--card-bg);
+  color: var(--text-color);
+}
+
+.profile-section {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--border-color);
+}
+
+.chat-container {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 15px;
+  background: var(--card-bg);
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+.student-profile img {
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background: #f0f0f0;
+  max-width: 70%;
+}
+
+.my-message {
+  margin-left: auto;
+  background: var(--primary-color);
+  color: white;
+}
+
+.message-input {
+  display: flex;
+  gap: 10px;
+}
+
+.achievement-card img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.message-input input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .profile-section {
+    flex-direction: column;
+  }
+  
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+  }
+  
+  .message {
+    max-width: 90%;
+  }
+}
+
+static/css/light.css:
+/* Светлая тема */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --text-color: #333;
+  --bg-color: #f9f9f9;
+  --border-color: #ddd;
+  --card-bg: #fff;
+  --error-color: #e74c3c;
+}
+
+.tab-btn {
+  background-color: #eee;
+  color: #333;
+}
+
+.tab-btn.active {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.achievement-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.search-box {
+  background-color: white;
+}
+
+#search-results {
+  background-color: white;
+  border: 1px solid var(--border-color);
+}
+
+static/css/dark.css:
+/* Темная тема */
+:root {
+  --primary-color: #819fbd;
+  --secondary-color: #34495e;
+  --text-color: #ecf0f1;
+  --bg-color: #121212;
+  --border-color: #444;
+  --card-bg: #1e1e1e;
+  --error-color: #7f1d1d;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.tab-btn {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
+.tab-btn.active {
+  background-color: var(--primary-color);
+}
+
+.achievement-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+input,
+textarea,
+select {
+  background-color: #333 !important;
+  color: var(--text-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.search-box {
+  background-color: var(--card-bg);
+}
+
+#search-results {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+}
+
+.message {
+  background-color: #2d2d2d;
+}
+
+.my-message {
+  background-color: var(--primary-color);
+}
+
+static/js/main.js:
+document.addEventListener('DOMContentLoaded', function() {
+    // Переключение темы
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeStyle = document.getElementById('theme-style');
+    
+    if (themeToggle && themeStyle) {
+        themeToggle.addEventListener('click', function() {
+            const isDark = themeStyle.href.includes('dark');
+            themeStyle.href = isDark 
+                ? '/static/css/light.css' 
+                : '/static/css/dark.css';
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+        });
+
+        // Восстановление темы
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        themeStyle.href = `/static/css/${savedTheme}.css`;
+    }
+
+    // Управление табами
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
+        });
+    });
+
+    // WebSocket-чат
+    const socket = io();
+    const chatForm = document.getElementById('chat-form');
+    
+    if (chatForm) {
+        chatForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const messageInput = document.getElementById('message-input');
+            const fileInput = document.getElementById('file-input');
+            
+            if (fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    socket.emit('message', {
+                        text: messageInput.value,
+                        file: {
+                            data: Array.from(new Uint8Array(reader.result)),
+                            ext: fileInput.files[0].name.split('.').pop()
+                        }
+                    });
+                };
+                reader.readAsArrayBuffer(fileInput.files[0]);
+            } else {
+                socket.emit('message', { text: messageInput.value });
+            }
+            
+            messageInput.value = '';
+            fileInput.value = '';
+        });
+    }
+
+    // Обработка новых сообщений
+    socket.on('new_message', function(data) {
+        const messagesDiv = document.getElementById('chat-messages');
+        const messageEl = document.createElement('div');
+        messageEl.className = `message ${data.sender === '{{ session.user }}' ? 'my-message' : ''}`;
+        
+        messageEl.innerHTML = `
+            <p>${data.text}</p>
+            ${data.file ? `<img src="${data.file}" class="chat-file">` : ''}
+            <span class="message-time">${data.timestamp}</span>
+        `;
+        
+        messagesDiv.appendChild(messageEl);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+
+    // Модальное окно редактирования
+    const editModal = document.getElementById('edit-modal');
+    if (editModal) {
+        document.querySelectorAll('[data-modal-toggle]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                editModal.style.display = 'block';
+            });
+        });
+
+        editModal.querySelector('.close-btn').addEventListener('click', () => {
+            editModal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === editModal) editModal.style.display = 'none';
+        });
+    }
+});
+

@@ -1,0 +1,39 @@
+<div class="profile-section">
+    <div class="profile-photo">
+        <img src="{{ url_for('static', filename='img/profile/' + profile.photo) }}" 
+             alt="Фото профиля"
+             onerror="this.src='{{ url_for('static', filename='img/profile/nkvtf.jpg') }}'">
+    </div>
+    <div class="profile-info">
+        <h2>{{ profile.name }}</h2>
+        <p><strong>Телефон:</strong> {{ profile.phone }}</p>
+        <p><strong>Email:</strong> {{ profile.email }}</p>
+        <p><strong>Telegram:</strong> {{ profile.telegram }}</p>
+        
+        {% if is_admin %}
+        <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+            <div class="form-row">
+                <label>Имя:</label>
+                <input type="text" name="name" value="{{ profile.name }}">
+            </div>
+            <div class="form-row">
+                <label>Телефон:</label>
+                <input type="text" name="phone" value="{{ profile.phone }}">
+            </div>
+            <div class="form-row">
+                <label>Email:</label>
+                <input type="email" name="email" value="{{ profile.email }}">
+            </div>
+            <div class="form-row">
+                <label>Telegram:</label>
+                <input type="text" name="telegram" value="{{ profile.telegram }}">
+            </div>
+            <div class="form-row">
+                <label>Фото:</label>
+                <input type="file" name="photo" accept="image/*">
+            </div>
+            <button type="submit" class="btn">Сохранить</button>
+        </form>
+        {% endif %}
+    </div>
+</div>

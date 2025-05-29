@@ -1,0 +1,48 @@
+{% set app = g.get('flask_app', None) or request.environ['flask.app'] %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{title}}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
+    <link id="theme-style" rel="stylesheet" href="{{ url_for('static', filename='css/light.css') }}">
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="header-controls">
+            <button id="theme-toggle">🌓</button>
+            
+            {% if 'title' != 'Репетитор' %}
+                <a href="{{ url_for('index') }}" class="btn">Профиль репетитора</a>
+            {% endif %}
+            
+            {% if session.rol>1 %}
+                <a href="{{ url_for('profile.admin_panel') }}" class="btn">Админ-панель</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn">Выйти</a>
+            {% elif session.rol %}
+                <a href="{{ url_for('student_profile') }}" class="btn">Мой профиль</a>
+                <a href="{{ url_for('auth.logout') }}" class="btn">Выйти</a>
+            {% else %}
+                Гостевой режим
+                <a href="{{ url_for('auth.login') }}" class="btn">Войти</a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{% if theem=='dark' %}
+{% extends 'base_dark.html' %}
+{% else %}
+{% extends 'base_light.html' %}
+{% endif %}
+{% block tit %}<title>Профиль Евгении Владимировны</title>{% endblock %}
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <img src="https://via.placeholder.com/1200x200" alt="Тематическая картинка" class="header-image" loading="lazy">
+        <div class="navigation-tabs">
+            <a href="/profil" class="tab active">Личная информация</a>
+            <a href="/education" class="tab">Образование</a>
+            <a href="/achievements" class="tab">Достижения</a>
+        </div>
+    </div>
+    <div class="profile-main">
+        <div class="profile-photo">
+            <img src="{{ url_for('static', filename='foto_e_v.jpg') }}" alt="Фото Евгении Владимировны" class="profile-image" loading="lazy">
+        </div>
+        <div class="profile-info">
+            <h2>Евгения Владимировна</h2>
+            <p>Ник в Telegram: @evgenia_tutor</p>
+            <p>Email: evgenia@tutor.com</p>
+        </div>
+        <div class="section-buttons">
+            <p>Выберите раздел для перехода:</p>
+            {% if session.get('subject') == 'plants' %}
+                <a href="/math" class="btn">Математика</a>
+                <a href="/music" class="btn">Музыка</a>
+            {% elif session.get('subject') == 'math' %}
+                <a href="/plants" class="btn">Растениеводство</a>
+                <a href="/music" class="btn">Музыка</a>
+            {% else %}
+                <a href="/plants" class="btn">Растениеводство</a>
+                <a href="/math" class="btn">Математика</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style>
+    .profile-container {max-width: 1200px; margin: 0 auto; padding: 20px;}
+    .profile-header {text-align: center; margin-bottom: 20px;}
+    .header-image {width: 100%; height: auto;}
+    .navigation-tabs {display: flex; justify-content: center; gap: 20px; margin-top: 20px;}
+    .tab {padding: 10px 20px; background-color: 6786f3; color: white; text-decoration: none; border-radius: 5px;}
+    .tab.active {background-color: 3a2d74;}
+    .profile-main {text-align: center;}
+    .profile-photo img {border-radius: 50%; width: 150px; height: 150px;}
+    .profile-info {margin: 20px 0;}
+    .section-buttons {margin: 20px 0;}
+    .btn {margin: 5px; padding: 10px 20px; background-color: 6786f3; color: white; border: none; border-radius: 5px; cursor: pointer;}
+    .btn:hover {background-color: 3a2d74;}
+</style>
+{% endblock %}
